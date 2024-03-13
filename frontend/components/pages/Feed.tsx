@@ -100,9 +100,9 @@ const Feed = () => {
           open={showNotifications}
           onDidDismiss={() => setShowNotifications(false)}
         />
-        {homeItems.map((i, index) => (
+        {/*     {homeItems.map((i, index) => (
           <FeedCard {...i} key={index} />
-        ))}
+        ))} */}
       </IonContent>
     </IonPage>
   );
