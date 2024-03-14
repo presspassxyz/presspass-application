@@ -9,7 +9,7 @@ import {
 } from '@ionic/react';
 import { cog, flash, list } from 'ionicons/icons';
 
-import Home from './Feed';
+import Home from './Start';
 import Lists from './Lists';
 import ListDetail from './ListDetail';
 import Settings from './Settings';
@@ -18,7 +18,7 @@ const Tabs = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/feed" render={() => <Home />} exact={true} />
+        <Route path="/start" render={() => <Home />} exact={true} />
         <Route path="/lists" render={() => <Lists />} exact={true} />
         <Route
           path="/lists/:listId"
@@ -26,12 +26,12 @@ const Tabs = () => {
           exact={true}
         />
         <Route path="/settings" render={() => <Settings />} exact={true} />
-        <Route path="" render={() => <Redirect to="/feed" />} exact={true} />
+        <Route path="" render={() => <Redirect to="/start" />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="tab1" href="/feed">
+        <IonTabButton tab="tab1" href="/start">
           <IonIcon icon={flash} />
-          <IonLabel>Feed</IonLabel>
+          <IonLabel>Start</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab2" href="/lists">
           <IonIcon icon={list} />

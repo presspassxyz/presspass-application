@@ -18,7 +18,7 @@ import { notificationsOutline } from 'ionicons/icons';
 import { selectHomeItems } from '../../store/selectors';
 import Store from '../../store';
 
-type FeedCardProps = {
+type StartCardProps = {
   title: string;
   type: string;
   text: string;
@@ -27,13 +27,13 @@ type FeedCardProps = {
   image: string;
 };
 
-const FeedCard = () => (
-  <Card className="my-4 mx-auto">
+const StartCard = () => (
+  <Card className="my-4 mx-auto h-screen bg-white">
     <div>Hej</div>
   </Card>
 );
 
-const Feed = () => {
+const Start = () => {
   const homeItems = Store.useState(selectHomeItems);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -41,7 +41,7 @@ const Feed = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Feed</IonTitle>
+          <IonTitle>Start</IonTitle>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
@@ -55,7 +55,7 @@ const Feed = () => {
       <IonContent className="ion-padding" fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Feed</IonTitle>
+            <IonTitle size="large">Start</IonTitle>
           </IonToolbar>
         </IonHeader>
         <Notifications
@@ -63,10 +63,10 @@ const Feed = () => {
           onDidDismiss={() => setShowNotifications(false)}
         />
 
-        <FeedCard />
+        <StartCard />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Feed;
+export default Start;

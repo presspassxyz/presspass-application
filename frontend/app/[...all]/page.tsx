@@ -7,7 +7,7 @@ const App = dynamic(() => import('../../components/AppShell'), {
 
 export async function generateStaticParams() {
   return [
-    { all: ['feed'] },
+    { all: ['start'] },
     { all: ['lists'] },
     ...lists.map(list => ({ all: ['lists', list.id] })),
     { all: ['settings'] },
