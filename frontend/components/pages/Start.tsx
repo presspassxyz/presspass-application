@@ -29,7 +29,16 @@ type StartCardProps = {
 
 const StartCard = () => (
   <Card className="my-4 mx-auto h-screen bg-white">
-    <div>Hej</div>
+    <div>
+      <h1>TIRED OF PEOPLE IMPERSONATING YOUR WORK?</h1>
+      <p>
+        Tired of getting impersonated and your Identity being used to phish/scam
+        people ? Get your PressPass. An open, free, attestation of your
+        credentials at work.
+      </p>
+      <button>Sign up</button>
+      <button>Go to</button>
+    </div>
   </Card>
 );
 
@@ -39,25 +48,7 @@ const Start = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Start</IonTitle>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton onClick={() => setShowNotifications(true)}>
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
       <IonContent className="ion-padding" fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Start</IonTitle>
-          </IonToolbar>
-        </IonHeader>
         <Notifications
           open={showNotifications}
           onDidDismiss={() => setShowNotifications(false)}
