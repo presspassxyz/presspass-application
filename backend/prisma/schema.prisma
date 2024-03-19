@@ -3,7 +3,7 @@
 
 datasource db {
     provider = "postgresql"
-    url      = "postgresql://siwe_workshop:your_password@localhost:5432/siwe_workshop"
+    url      = "postgresql://presspass:1q2w3e@localhost:5432/presspass"
 }
 
 generator client {
@@ -11,9 +11,44 @@ generator client {
     binaryTargets = ["native", "linux-musl"]
 }
 
-model User {
-    id   Int    @id @default(autoincrement())
-    wallet_address String @unique
-    nonce  String
-    created_at DateTime @default(now())
+model users {
+    id              Int      @id @default(autoincrement())
+    wallet_address  String   @unique
+    email           String   @unique
+    name            String?
+    bio             String?
+    profile_picture String?
+    twitter         String?
+    instagram       String?
+    created_at      DateTime @default(now())
+
+    //relations
+    user_attestations user_attestations[]
+    organization      organization[]
+}
+
+model user_attestations {
+    id             Int          @id @default(autoincrement())
+    user           users        @relation(fields: [userId], references: [id])
+    userId         Int
+    organization   organization @relation(fields: [organizationId], references: [id])
+    organizationId Int
+    created_at     DateTime     @default(now())
+}
+
+model organization {
+    id                       Int                        @id @default(autoincrement())
+    name                     String
+    creator                  users                      @relation(fields: [creatorId], references: [id])
+    creatorId                Int
+    created_at               DateTime                   @default(now())
+    user_attestations        user_attestations[]
+    organization_attestation organization_attestation[]
+}
+
+model organization_attestation {
+    id             Int          @id @default(autoincrement())
+    organization   organization @relation(fields: [organizationId], references: [id])
+    organizationId Int
+    created_at     DateTime     @default(now())
 }
