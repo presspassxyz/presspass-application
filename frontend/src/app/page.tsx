@@ -1,11 +1,8 @@
 "use client";
 
-import TypewriterTitle from "@/components/shared/TypewriterTitle";
-import SkeletonLoading from "@/components/ui/SkeletonLoading";
 import { Button } from "@/components/ui/button";
-import SismoButton from "@/components/ui/sismoConnectButton";
+import PrivyButton from "@/components/ui/privyButton";
 import { getCookie } from "@/helper";
-import useGetLoggedInUser from "@/hooks/useGetLoggedInUser";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,10 +14,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const cookie = getCookie();
   const router = useRouter();
-
-  const handleEnterZuko = () => {
-    router.push("/dashboard/home");
-  };
 
   return (
     <div className="w-screen h-screen circles">
@@ -52,27 +45,17 @@ export default function Home() {
         ) : (
           <div>
             {" "}
-            <h1 className="font-semibold text-6xl text-center">Zuko</h1>
-            <div className="mt-4"></div>
-            <h2 className="font-semibold text-4xl text-center">
-              Permissionless, Privacy-Focused Social dApp
+            <h1 className="mt-4 text-2xl text-center">GET YOUR PRESS PASS</h1>
+            <h2 className="mt-4 text-center">
+              Tired of getting impersonated and your Identity being used to
+              phish/scam people ? Get your PressPass. An open, free, attestation
+              of your credentials at work.
             </h2>
             <div className="mt-4"></div>
-            <h3 className="font-semibold text-2xl text-center text-black">
-              <TypewriterTitle />
-            </h3>
+            <h3 className="font-semibold text-2xl text-center text-black"></h3>
             <div className="mt-4"></div>
             <div className="flex justify-center">
-              {cookie ? (
-                <Button
-                  onClick={handleEnterZuko}
-                  className="w-250 h-250 font-bold text-2xl bg-primary/10 rouded-lg"
-                >
-                  Enter Zuko <ArrowRight size={30} />
-                </Button>
-              ) : (
-                <SismoButton loading={loading} setLoading={setLoading} />
-              )}
+              <PrivyButton loading={loading} setLoading={setLoading} />
             </div>
           </div>
         )}

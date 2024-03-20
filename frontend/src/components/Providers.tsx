@@ -3,17 +3,20 @@
 import React from "react";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { useRouter } from "next/router";
+import ApiService from "@/services/ApiService";
 
 const Providers = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const router = useRouter();
+  //const router = useRouter();
 
-  const handleLogin = (user: any) => {
+  const handleLogin = async (user: any) => {
     console.log(`User ${user.id} logged in! in Providers.tsx`);
-    router.push("/settings");
+    const authenticatedUser = await ApiService.authenticateUser(user);
+
+    // router.push(`/user/${user.id}`);
   };
 
   return (

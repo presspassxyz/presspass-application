@@ -1,26 +1,27 @@
-import { Auth } from '@/utils';
+import { Auth } from "@/utils/auth";
+
 const serverAddress =
-  process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+  process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
 const NetworkService = {
   getResource: function (url) {
     var promise = new Promise((resolve, reject) => {
       let request = {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
       };
 
       fetch(serverAddress + url, request)
-        .then(response => {
+        .then((response) => {
           return NetworkService.handleJsonResponse(response);
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           resolve(responseJson);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -29,25 +30,25 @@ const NetworkService = {
   getResourceWithAuth: function (url, jwt) {
     var promise = new Promise((resolve, reject) => {
       let request = {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + jwt,
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          Authorization: "Bearer " + jwt,
+          "Content-Type": "application/json",
         },
       };
 
       if (Auth.isAuthenticated) {
-        request.headers['Authorization'] = 'Bearer ' + Auth.accessToken;
+        request.headers["Authorization"] = "Bearer " + Auth.accessToken;
       }
       fetch(serverAddress + url, request)
-        .then(response => {
+        .then((response) => {
           return NetworkService.handleJsonResponse(response);
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           resolve(responseJson);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -56,27 +57,27 @@ const NetworkService = {
   putResourceWithAuth: function (url, data, jwt) {
     var promise = new Promise((resolve, reject) => {
       var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       };
       if (Auth.isAuthenticated) {
-        headers['Authorization'] = 'Bearer ' + Auth.accessToken;
+        headers["Authorization"] = "Bearer " + Auth.accessToken;
       }
 
       let request = {
-        method: 'PUT',
+        method: "PUT",
         headers: headers,
         body: JSON.stringify(data),
       };
 
       fetch(serverAddress + url, request)
-        .then(response => {
+        .then((response) => {
           return NetworkService.handleJsonResponse(response);
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           resolve(responseJson);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -86,28 +87,28 @@ const NetworkService = {
   postResourceWithAuth: function (url, data, jwt) {
     var promise = new Promise((resolve, reject) => {
       var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       };
 
       if (Auth.isAuthenticated) {
-        headers['Authorization'] = 'Bearer ' + Auth.accessToken;
+        headers["Authorization"] = "Bearer " + Auth.accessToken;
       }
 
       let request = {
-        method: 'POST',
+        method: "POST",
         headers: headers,
         body: JSON.stringify(data),
       };
 
       fetch(serverAddress + url, request)
-        .then(response => {
+        .then((response) => {
           return NetworkService.handleJsonResponse(response);
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           resolve(responseJson);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -140,28 +141,28 @@ const NetworkService = {
   deleteResourceWithAuth: function (url, jwt) {
     var promise = new Promise((resolve, reject) => {
       var headers = {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + jwt,
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        Authorization: "Bearer " + jwt,
+        "Content-Type": "application/json",
       };
 
       if (jwt) {
-        headers['Authorization'] = 'Bearer ' + jwt;
+        headers["Authorization"] = "Bearer " + jwt;
       }
       let request = {
-        method: 'DELETE',
+        method: "DELETE",
         headers: headers,
         // body: JSON.stringify(data)
       };
 
       fetch(serverAddress + url, request)
-        .then(response => {
+        .then((response) => {
           return NetworkService.handleJsonResponse(response);
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           resolve(responseJson);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -170,25 +171,25 @@ const NetworkService = {
   deleteArrayResourceWithAuth: function (url, data, session) {
     var promise = new Promise((resolve, reject) => {
       var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       };
       if (session) {
-        headers['x-session'] = session.guid;
+        headers["x-session"] = session.guid;
       }
       let request = {
-        method: 'DELETE',
+        method: "DELETE",
         headers: headers,
         body: JSON.stringify(data),
       };
       fetch(serverAddress + url, request)
-        .then(response => {
+        .then((response) => {
           return NetworkService.handleJsonResponse(response);
         })
-        .then(responseJson => {
+        .then((responseJson) => {
           resolve(responseJson);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Onboarding() {
+export default function User() {
   const [loading, setLoading] = useState(false);
   return (
     <div className="bg-gradient-to-r min-h-screen from-blue-100 to-teal-100">
@@ -20,7 +20,7 @@ export default function Onboarding() {
         />
       </Link>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <AuthUser />
+        beeee welcome user
       </div>
     </div>
   );

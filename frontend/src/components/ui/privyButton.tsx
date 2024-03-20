@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Button } from "./button";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
 
-export default function SismoButton(props: any) {
+export default function PrivyButton(props: any) {
   const { loading, setLoading } = props;
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -26,13 +26,16 @@ export default function SismoButton(props: any) {
 
   const handleLogin = async (signInResult: any) => {
     setUserLoggedIn(true);
-
     if (authenticated) {
-      router.push("/user/:id");
+      router.push(`/user/${5}`);
       return;
     }
-
     login();
   };
-  return <Button onClick={handleLogin}>Sign in</Button>;
+
+  return (
+    <Button className="bg-black text-white px-4 py-2 " onClick={handleLogin}>
+      Sign in
+    </Button>
+  );
 }
