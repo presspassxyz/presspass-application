@@ -1,12 +1,18 @@
 import { getCookie } from "@/helper";
 import ApiService from "@/services/ApiService";
 import { useState, useEffect } from "react";
-export type UserData = {
+export interface UserData {
   id: number;
-  wallet_address: string;
+  name: string;
   email: string;
+  twitter: string;
+  instagram: string;
+  bio: string;
+  profile_picture: string;
+  wallet_address: string;
   created_at: string;
-};
+  // Add more fields as needed
+}
 
 export function useGetUserById(userId: number) {
   const [user, setUser] = useState<UserData | null>(null);
@@ -28,7 +34,7 @@ export function useGetUserById(userId: number) {
     fetchData();
   }, [user]);
 
-  return { user, loading };
+  return { user, loading, setUser };
 }
 
 export default useGetUserById;

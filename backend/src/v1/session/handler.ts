@@ -11,17 +11,7 @@ import jwt from "jsonwebtoken";
 
 
 
-export async function getUser(
-  req: any,
-  rep: FastifyReply
-): Promise<void> {
-  try {
-    rep.code(STANDARD.SUCCESS).send(await findUserById(req.params.id));
-  } catch (error) {
-    console.error('Error finding user with id:' + req.params.id, error);
-    rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
-  }
-}
+
 
 
 export async function getAutheticatedData(
@@ -97,19 +87,7 @@ async function findExistingUser(publicAddress: string) {
   return existingUser
 }
 
-async function findUserById(id: number) {
-  const user = await prisma.users.findUnique({
-    where: { id: Number(id) },
-    select: {
-      id: true,
-      email: true,
-      created_at: true,
-      wallet_address: true,
 
-    },
-  });
-  return user
-}
 
 //TODO add email embedded wallet edge case, since user object from Privy is different then
 async function createUser(walletAddress: string) {

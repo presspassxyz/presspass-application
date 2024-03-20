@@ -8,10 +8,18 @@ const ApiService = {
 
     getUser: async function (userId: number) {
         return NetworkService.getResourceWithAuth(
-            "/v1/session/" + userId
+            "/v1/user/" + userId
 
         );
     },
+
+    updateUser: async function (userId: number, userObject: any) {
+        return NetworkService.putResourceWithAuth(
+            "/v1/user/" + userId, userObject
+
+        );
+    },
+
 
     //Includes groupId and public address
     createMember: async function (id: string, member: any) {
