@@ -33,7 +33,7 @@ export async function getAutheticatedData(
   }
 }
 
-export async function verifySignature(
+export async function verifyLoginOrSignup(
   req: FastifyRequestTypebox<typeof VerifySiweMessageInput>,
   rep: FastifyReplyTypebox<typeof VerifySiweMessageInput>
 ): Promise<void> {

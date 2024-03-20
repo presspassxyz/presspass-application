@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { methods } from '@/helpers/api';
-import { createNonce, getAutheticatedData, verifySignature } from './handler';
+import { createNonce, getAutheticatedData, verifyLoginOrSignup } from './handler';
 import { SiweMessageInput, VerifySiweMessageInput } from './schema';
 import { authenticationMiddleware } from '../middleware';
 
@@ -11,7 +11,7 @@ const Session = async (app: FastifyInstance) => {
     method: methods.POST,
     url: '/verify',
     schema: VerifySiweMessageInput,
-    handler: verifySignature,
+    handler: verifyLoginOrSignup,
   });
 
   app.route({
