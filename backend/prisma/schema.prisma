@@ -20,6 +20,7 @@ model users {
     profile_picture String?
     twitter         String?
     instagram       String?
+    jwt             String
     created_at      DateTime @default(now())
 
     //relations

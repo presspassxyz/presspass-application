@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PrivyProvider } from "@privy-io/react-auth";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import ApiService from "@/services/ApiService";
 
 const Providers = ({
@@ -10,13 +10,14 @@ const Providers = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  //const router = useRouter();
+  const router = useRouter();
 
   const handleLogin = async (user: any) => {
     console.log(`User ${user.id} logged in! in Providers.tsx`);
-    const authenticatedUser = await ApiService.authenticateUser({ user: user });
+    //TODO: store Privy auth.token in backend and db
+    const authenticatedUser = await ApiService.authenticateUser(user);
     console.log(authenticatedUser, "authenticated user");
-    // router.push(`/user/${user.id}`);
+    router.push(`/user/${authenticatedUser.user.id}`);
   };
 
   return (

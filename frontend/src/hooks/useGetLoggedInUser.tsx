@@ -1,30 +1,34 @@
 import { getCookie } from "@/helper";
+import ApiService from "@/services/ApiService";
 import { useState, useEffect } from "react";
-interface UserData {
-  username: string;
-  vault_id: string;
-}
+export type UserData = {
+  id: number;
+  wallet_address: string;
+  email: string;
+  created_at: string;
+};
 
-export function useGetLoggedInUser() {
-  const [loggedInUser, setLoggedInUser] = useState<UserData | null>(null);
+export function useGetUserById(userId: number) {
+  const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    const fetchUserFromCookie = async () => {
+    const fetchData = async () => {
       try {
-        if (!loggedInUser) {
+        if (!user) {
           setLoading(true);
-          const _loggedInUser = getCookie();
-          setLoggedInUser(_loggedInUser);
+          const _user = await ApiService.getUser(userId);
+          console.log(_user, "heee, wats user?, heej");
+          setUser(_user);
           setLoading(false);
         }
       } catch (error) {
         console.log(error, "Error fetching my groups");
       }
     };
-    fetchUserFromCookie();
-  }, [loggedInUser]);
+    fetchData();
+  }, [user]);
 
-  return { loggedInUser, loading };
+  return { user, loading };
 }
 
-export default useGetLoggedInUser;
+export default useGetUserById;

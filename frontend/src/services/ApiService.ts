@@ -6,10 +6,10 @@ const ApiService = {
         return NetworkService.postResourceWithAuth("/v1/session/authenticate", user);
     },
 
-    updateGroup: async function (groupId: string, groupObject: any) {
-        return NetworkService.putResourceWithAuth(
-            "/v1/groups/" + groupId,
-            groupObject
+    getUser: async function (userId: number) {
+        return NetworkService.getResourceWithAuth(
+            "/v1/session/" + userId
+
         );
     },
 

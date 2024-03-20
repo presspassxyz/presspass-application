@@ -1,22 +1,24 @@
 import { FastifyRequestTypebox, FastifyReplyTypebox } from '@/v1/fastifyTypes';
 import { prisma } from '@/db/index';
 import { ERRORS } from '@/helpers/errors';
-import { SiweMessageInput, VerifySiweMessageInput } from './schema';
-import { ERROR404, ERROR500, STANDARD } from '@/helpers/constants';
-import { SiweMessage, generateNonce } from 'siwe';
+import { VerifySiweMessageInput } from './schema';
+import {
+  ERROR500, STANDARD
+} from '@/helpers/constants';
+import { generateNonce } from 'siwe';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import jwt from "jsonwebtoken";
 
 
 
-export async function createNonce(
-  req: FastifyRequest,
+export async function getUser(
+  req: any,
   rep: FastifyReply
 ): Promise<void> {
   try {
-    rep.code(STANDARD.SUCCESS).send({ nonce: generateNonce() });
+    rep.code(STANDARD.SUCCESS).send(await findUserById(req.params.id));
   } catch (error) {
-    console.error('Error creating message:', error);
+    console.error('Error finding user with id:' + req.params.id, error);
     rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
   }
 }
@@ -47,11 +49,12 @@ export async function authenticateUser(
       rep.code(ERROR500.statusCode).send({ msg: ERRORS.swieMsgFailed });
     }
     else {
-      //Create JWT to send back to client
+      //Create JWT to send back to client TODO: we dont need this JWT since Privy gives us a token we can use instead
       const token = jwt.sign(wallet.address, "jwt-secret");
       const existingUser = await findExistingUser(wallet.address)
-      //If existing user exists return it
+      //If existing user exists return it, TODO: update jwt in user table from Privy auth token
       if (existingUser?.wallet_address) {
+        //await updateUserTokenAtLogin("")
         rep.code(STANDARD.SUCCESS).send({ user: existingUser, jwt: token });
       } else {
         const createdUser = await createUser(wallet.address)
@@ -67,11 +70,11 @@ export async function authenticateUser(
 
 
 //DB HELPER FUNCTIONS:
-async function updateUserNonceAtLogin(publicAddress: string) {
+async function updateUserTokenAtLogin(privyAuthToken: string) {
   const updatedNonceUser = await prisma.users.update({
-    where: { wallet_address: publicAddress },
+    where: { wallet_address: privyAuthToken },
     data: {
-      wallet_address: publicAddress
+      //jwt: privyAuthToken
     },
     select: {
       wallet_address: true,
@@ -84,6 +87,9 @@ async function findExistingUser(publicAddress: string) {
   const existingUser = await prisma.users.findUnique({
     where: { wallet_address: publicAddress },
     select: {
+      id: true,
+      email: true,
+      created_at: true,
       wallet_address: true,
 
     },
@@ -91,12 +97,27 @@ async function findExistingUser(publicAddress: string) {
   return existingUser
 }
 
+async function findUserById(id: number) {
+  const user = await prisma.users.findUnique({
+    where: { id: Number(id) },
+    select: {
+      id: true,
+      email: true,
+      created_at: true,
+      wallet_address: true,
+
+    },
+  });
+  return user
+}
+
 //TODO add email embedded wallet edge case, since user object from Privy is different then
 async function createUser(walletAddress: string) {
   const createdUser = await prisma.users.create({
     data: {
       wallet_address: walletAddress,
-      email: ""
+      email: "",
+      //jwt: privyAuthToken
     },
   });
   return createdUser
