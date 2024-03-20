@@ -4,6 +4,7 @@ import React from "react";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import ApiService from "@/services/ApiService";
+import { Auth } from "@/utils/auth";
 
 const Providers = ({
   children,
@@ -15,7 +16,11 @@ const Providers = ({
   const handleLogin = async (user: any) => {
     console.log(`User ${user.id} logged in! in Providers.tsx`);
     //TODO: store Privy auth.token in backend and db
-    const authenticatedUser = await ApiService.authenticateUser(user);
+    const authenticatedUser = await ApiService.authenticateUser({
+      user,
+      ...{ jwt: Auth.accessToken },
+    });
+
     console.log(authenticatedUser, "authenticated user");
     router.push(`/user/${authenticatedUser.user.id}`);
   };

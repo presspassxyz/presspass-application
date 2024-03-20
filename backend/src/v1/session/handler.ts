@@ -31,7 +31,7 @@ export async function authenticateUser(
 ): Promise<void> {
   console.log(req.body, 'req body')
 
-  const { wallet } = req.body
+  const { wallet, jwt } = req.body
   console.log(wallet, 'user body')
   try {
     if (!wallet.address) {
@@ -40,15 +40,15 @@ export async function authenticateUser(
     }
     else {
       //Create JWT to send back to client TODO: we dont need this JWT since Privy gives us a token we can use instead
-      const token = jwt.sign(wallet.address, "jwt-secret");
+      //const token = jwt.sign(wallet.address, "jwt-secret");
       const existingUser = await findExistingUser(wallet.address)
       //If existing user exists return it, TODO: update jwt in user table from Privy auth token
       if (existingUser?.wallet_address) {
-        //await updateUserTokenAtLogin("")
-        rep.code(STANDARD.SUCCESS).send({ user: existingUser, jwt: token });
+        await updateUserTokenAtLogin(jwt)
+        rep.code(STANDARD.SUCCESS).send({ user: existingUser, jwt });
       } else {
-        const createdUser = await createUser(wallet.address)
-        rep.code(STANDARD.SUCCESS).send({ user: createdUser, jwt: token });
+        const createdUser = await createUser(wallet.address, jwt)
+        rep.code(STANDARD.SUCCESS).send({ user: createdUser, jwt });
 
       }
     }
@@ -90,12 +90,12 @@ async function findExistingUser(publicAddress: string) {
 
 
 //TODO add email embedded wallet edge case, since user object from Privy is different then
-async function createUser(walletAddress: string) {
+async function createUser(walletAddress: string, jwt: string) {
   const createdUser = await prisma.users.create({
     data: {
       wallet_address: walletAddress,
       email: "",
-      //jwt: privyAuthToken
+      jwt: jwt
     },
   });
   return createdUser
