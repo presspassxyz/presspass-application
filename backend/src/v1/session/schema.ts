@@ -22,12 +22,12 @@ export const SiweMessageInput = {
 
 export const VerifySiweMessageInput = {
   body: t.Object({
-    message: t.Any(),
-    signature: t.String(),
+    wallet: t.Any(),
   }),
   response: {
     200: t.Object({
-      data: t.Any(),
+      user: t.Any(),
+      jwt: t.String(),
     }),
     404: t.Object({
       msg: t.String(),

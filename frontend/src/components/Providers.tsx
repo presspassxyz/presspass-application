@@ -14,8 +14,8 @@ const Providers = ({
 
   const handleLogin = async (user: any) => {
     console.log(`User ${user.id} logged in! in Providers.tsx`);
-    const authenticatedUser = await ApiService.authenticateUser(user);
-
+    const authenticatedUser = await ApiService.authenticateUser({ user: user });
+    console.log(authenticatedUser, "authenticated user");
     // router.push(`/user/${user.id}`);
   };
 

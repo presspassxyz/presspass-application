@@ -14,7 +14,7 @@ generator client {
 model users {
     id              Int      @id @default(autoincrement())
     wallet_address  String   @unique
-    email           String   @unique
+    email           String?  @unique
     name            String?
     bio             String?
     profile_picture String?

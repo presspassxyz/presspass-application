@@ -1,8 +1,5 @@
 "use client";
 
-import AuthUser from "@/components/shared/AuthUser";
-import TypewriterTitle from "@/components/shared/TypewriterTitle";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";

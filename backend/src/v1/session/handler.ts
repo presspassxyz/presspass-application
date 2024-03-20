@@ -37,34 +37,28 @@ export async function authenticateUser(
   req: FastifyRequestTypebox<typeof VerifySiweMessageInput>,
   rep: FastifyReplyTypebox<typeof VerifySiweMessageInput>
 ): Promise<void> {
+  console.log(req.body, 'req body')
 
-  console.log(req.body, 'wats req body??')
-
+  const { wallet } = req.body
+  console.log(wallet, 'user body')
   try {
-    /*     const siweMessage = new SiweMessage(message);
-        if (!siweMessage) {
-          console.error('Error instantiating');
-          rep.code(ERROR500.statusCode).send({ msg: ERRORS.swieMsgFailed });
-        }
-        const verify = await siweMessage.verify({ signature });
-    
-        if (!verify) {
-          console.error('Error verifying');
-          rep.code(ERROR500.statusCode).send({ msg: ERRORS.swieMsgFailed });
-        }
-    
-        else {
-          //Create JWT to send back to client
-          const token = jwt.sign(verify.data.address, "jwt-secret");
-          const existingUser = await findExistingUser(verify.data.address)
-          //If existing user exists, update nonce - this nonce is used to identify the session and prevent against replay attacks //
-          if (existingUser?.wallet_address) {
-            await updateUserNonceAtLogin(verify.data.address, verify.data.nonce)
-          } else {
-            createUser(verify.data.address, verify.data.nonce)
-          }
-          rep.code(STANDARD.SUCCESS).send({ data: { verify, signature, jwt: token } });
-        } */
+    if (!wallet.address) {
+      console.error('Error, no wallet address provided in Privy user obj');
+      rep.code(ERROR500.statusCode).send({ msg: ERRORS.swieMsgFailed });
+    }
+    else {
+      //Create JWT to send back to client
+      const token = jwt.sign(wallet.address, "jwt-secret");
+      const existingUser = await findExistingUser(wallet.address)
+      //If existing user exists return it
+      if (existingUser?.wallet_address) {
+        rep.code(STANDARD.SUCCESS).send({ user: existingUser, jwt: token });
+      } else {
+        const createdUser = await createUser(wallet.address)
+        rep.code(STANDARD.SUCCESS).send({ user: createdUser, jwt: token });
+
+      }
+    }
   } catch (error) {
     console.error('Error verifying message:', error);
     rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
@@ -97,15 +91,19 @@ async function findExistingUser(publicAddress: string) {
   return existingUser
 }
 
-/* async function createUser(publicAddress: string) {
+//TODO add email embedded wallet edge case, since user object from Privy is different then
+async function createUser(walletAddress: string) {
   const createdUser = await prisma.users.create({
     data: {
-      wallet_address: publicAddress,
+      wallet_address: walletAddress,
+      email: ""
     },
   });
   return createdUser
 }
- */
+
+
+
 
 
 

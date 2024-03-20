@@ -10,7 +10,7 @@ const Session = async (app: FastifyInstance) => {
   app.route({
     method: methods.POST,
     url: '/authenticate',
-    schema: VerifySiweMessageInput,
+    //schema: VerifySiweMessageInput,
     handler: authenticateUser,
   });
 
