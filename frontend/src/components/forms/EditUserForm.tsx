@@ -3,7 +3,6 @@
 import { UserData } from "@/hooks/useGetUserById";
 import ApiService from "@/services/ApiService";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 interface EditUserFormProps {
@@ -16,7 +15,7 @@ function EditUserForm(props: EditUserFormProps) {
   const { setIsEditing, user, setUser } = props;
   let { id: userId } = useParams();
 
-  const [formData, setFormData] = useState<EditUserFormProps | null>(null);
+  const [formData, setFormData] = useState<UserData | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,8 +24,6 @@ function EditUserForm(props: EditUserFormProps) {
       [name]: value,
     });
   };
-
-  console.log("UUUSER:", user);
 
   const handleSaveClick = async () => {
     try {
