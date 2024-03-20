@@ -1,7 +1,7 @@
 import { Auth } from "@/utils/auth";
 
 const serverAddress =
-  process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
+  process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
 
 const NetworkService = {
   getResource: function (url) {

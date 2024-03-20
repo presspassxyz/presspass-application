@@ -73,42 +73,40 @@ export async function authenticateUser(
 
 
 //DB HELPER FUNCTIONS:
-async function updateUserNonceAtLogin(publicAddress: string, nonce: string) {
+async function updateUserNonceAtLogin(publicAddress: string) {
   const updatedNonceUser = await prisma.users.update({
     where: { wallet_address: publicAddress },
     data: {
-      nonce: nonce
+      wallet_address: publicAddress
     },
     select: {
       wallet_address: true,
-      nonce: true,
     },
   });
   return updatedNonceUser
 }
 
 async function findExistingUser(publicAddress: string) {
-  const existingUser = await prisma.user.findUnique({
+  const existingUser = await prisma.users.findUnique({
     where: { wallet_address: publicAddress },
     select: {
       wallet_address: true,
-      nonce: true,
+
     },
   });
   return existingUser
 }
 
-async function createUser(publicAddress: string, nonce: string) {
-  const createdUser = await prisma.user.create({
+/* async function createUser(publicAddress: string) {
+  const createdUser = await prisma.users.create({
     data: {
-      nonce: nonce,
       wallet_address: publicAddress,
     },
   });
   return createdUser
 }
+ */
 
 
 
 
-}
