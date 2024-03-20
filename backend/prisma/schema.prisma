@@ -23,32 +23,41 @@ model users {
     created_at      DateTime @default(now())
 
     //relations
-    user_attestations user_attestations[]
-    organization      organization[]
+    user_attestations  user_attestations[]
+    organization       organizations[]
+    user_organizations user_organizations[]
+    attested_users     user_attestations[]  @relation("attestor_user")
 }
 
+//Anyone can create an organization
+model organizations {
+    id                 Int                  @id @default(autoincrement())
+    name               String
+    creator            users                @relation(fields: [creator_id], references: [id])
+    creator_id         Int
+    created_at         DateTime             @default(now())
+    user_attestations  user_attestations[]
+    user_organizations user_organizations[]
+}
+
+//which organizations have attested the user (used for to see organization passes the user holds)
 model user_attestations {
-    id             Int          @id @default(autoincrement())
-    user           users        @relation(fields: [userId], references: [id])
-    userId         Int
-    organization   organization @relation(fields: [organizationId], references: [id])
-    organizationId Int
-    created_at     DateTime     @default(now())
+    id              Int           @id @default(autoincrement())
+    user            users         @relation(fields: [user_id], references: [id])
+    user_id         Int
+    organization    organizations @relation(fields: [organization_id], references: [id])
+    organization_id Int
+    attestor_user   users         @relation("attestor_user", fields: [attestor], references: [id])
+    attestor        Int
+    created_at      DateTime      @default(now())
 }
 
-model organization {
-    id                       Int                        @id @default(autoincrement())
-    name                     String
-    creator                  users                      @relation(fields: [creatorId], references: [id])
-    creatorId                Int
-    created_at               DateTime                   @default(now())
-    user_attestations        user_attestations[]
-    organization_attestation organization_attestation[]
-}
-
-model organization_attestation {
-    id             Int          @id @default(autoincrement())
-    organization   organization @relation(fields: [organizationId], references: [id])
-    organizationId Int
-    created_at     DateTime     @default(now())
+//A user can belong to a organization
+model user_organizations {
+    id              Int           @id @default(autoincrement())
+    organization    organizations @relation(fields: [organization_id], references: [id])
+    organization_id Int
+    user            users         @relation(fields: [user_id], references: [id])
+    user_id         Int
+    created_at      DateTime      @default(now())
 }

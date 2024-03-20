@@ -36,8 +36,4 @@ Run the following to create a new user and databse
 
 ### Migrations & Database
 
-- Add all the tables to your local db: `npm run db:generate && npm run db:dev && npm run db:deploy && npm run db:psuh`
-
-## 📝 Notes
-
-I have not added any authentication header to get protected endpoint
+- Add all the tables to your local db: `npm run db:generate && npm run db:dev && npm run db:deploy && npm run db:push`
