@@ -37,7 +37,7 @@ export async function updateUser(
 //DB HELPER FUNCTIONS:
 async function updateUserTable(id: string, userObject: any) {
   const { name, email, twitter, instagram, bio, profile_picture } = userObject
-  const updatedNonceUser = await prisma.users.update({
+  const updatedUser = await prisma.users.update({
     where: { id: Number(id) },
     data: {
       name,
@@ -51,7 +51,7 @@ async function updateUserTable(id: string, userObject: any) {
       created_at: true, wallet_address: true, name: true, email: true, twitter: true, instagram: true, bio: true, profile_picture: true
     },
   });
-  return updatedNonceUser
+  return updatedUser
 }
 
 
@@ -60,24 +60,11 @@ async function findUserById(id: number) {
     where: { id: Number(id) },
     select: {
       created_at: true, wallet_address: true, name: true, email: true, twitter: true, instagram: true, bio: true, profile_picture: true
-
-
     },
   });
   return user
 }
 
-//TODO add email embedded wallet edge case, since user object from Privy is different then
-async function createUser(walletAddress: string) {
-  const createdUser = await prisma.users.create({
-    data: {
-      wallet_address: walletAddress,
-      email: "",
-      //jwt: privyAuthToken
-    },
-  });
-  return createdUser
-}
 
 
 

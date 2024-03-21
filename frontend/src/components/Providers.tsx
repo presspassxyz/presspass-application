@@ -21,6 +21,8 @@ const Providers = ({
       ...{ jwt: Auth.accessToken },
     });
 
+    Auth.setUser(authenticatedUser.user.id);
+
     console.log(authenticatedUser, "authenticated user");
     router.push(`/user/${authenticatedUser.user.id}`);
   };

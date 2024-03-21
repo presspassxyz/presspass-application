@@ -5,13 +5,7 @@ import { VerifySiweMessageInput } from './schema';
 import {
   ERROR500, STANDARD
 } from '@/helpers/constants';
-import { generateNonce } from 'siwe';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import jwt from "jsonwebtoken";
-
-
-
-
 
 
 export async function getAutheticatedData(
@@ -31,23 +25,21 @@ export async function authenticateUser(
 ): Promise<void> {
   console.log(req.body, 'req body')
 
-  const { wallet, jwt } = req.body
-  console.log(wallet, 'user body')
+  const { user, jwt } = req.body
+  console.log(user, 'user body')
   try {
-    if (!wallet.address) {
+    if (!user.wallet.address) {
       console.error('Error, no wallet address provided in Privy user obj');
       rep.code(ERROR500.statusCode).send({ msg: ERRORS.swieMsgFailed });
     }
     else {
-      //Create JWT to send back to client TODO: we dont need this JWT since Privy gives us a token we can use instead
-      //const token = jwt.sign(wallet.address, "jwt-secret");
-      const existingUser = await findExistingUser(wallet.address)
+      const existingUser = await findExistingUser(user.wallet.address)
       //If existing user exists return it, TODO: update jwt in user table from Privy auth token
       if (existingUser?.wallet_address) {
-        await updateUserTokenAtLogin(jwt)
+        await updateUserTokenAtLogin(existingUser?.wallet_address, jwt)
         rep.code(STANDARD.SUCCESS).send({ user: existingUser, jwt });
       } else {
-        const createdUser = await createUser(wallet.address, jwt)
+        const createdUser = await createUser(user.wallet.address, jwt)
         rep.code(STANDARD.SUCCESS).send({ user: createdUser, jwt });
 
       }
@@ -60,11 +52,11 @@ export async function authenticateUser(
 
 
 //DB HELPER FUNCTIONS:
-async function updateUserTokenAtLogin(privyAuthToken: string) {
+async function updateUserTokenAtLogin(walletAddress: string, privyAuthToken: string) {
   const updatedNonceUser = await prisma.users.update({
-    where: { wallet_address: privyAuthToken },
+    where: { wallet_address: walletAddress },
     data: {
-      //jwt: privyAuthToken
+      jwt: privyAuthToken
     },
     select: {
       wallet_address: true,

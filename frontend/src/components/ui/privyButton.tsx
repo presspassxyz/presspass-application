@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./button";
 import { useLogin, usePrivy } from "@privy-io/react-auth";
+import { Auth } from "@/utils/auth";
 
 export default function PrivyButton(props: any) {
   const { loading, setLoading } = props;
@@ -27,7 +28,7 @@ export default function PrivyButton(props: any) {
   const handleLogin = async (signInResult: any) => {
     setUserLoggedIn(true);
     if (authenticated) {
-      router.push(`/user/${5}`);
+      router.push(`/user/${Auth.getUser}`);
       return;
     }
     login();

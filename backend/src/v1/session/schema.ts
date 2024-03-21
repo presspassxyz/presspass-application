@@ -22,7 +22,8 @@ export const SiweMessageInput = {
 
 export const VerifySiweMessageInput = {
   body: t.Object({
-    wallet: t.Any(),
+    user: t.Any(),
+    jwt: t.String(),
   }),
   response: {
     200: t.Object({
