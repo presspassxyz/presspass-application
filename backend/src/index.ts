@@ -11,6 +11,7 @@ import fastifyCookie from '@fastify/cookie';
 import Home from './v1/init';
 import Session from './v1/session/route';
 import User from './v1/user/route';
+import Organization from './v1/organization/route';
 
 const startServer = async () => {
   try {
@@ -24,6 +25,8 @@ const startServer = async () => {
       .register(fastifyCookie)
       .register(fastifySession, { secret: 'a secret with minimum length of 32 characters' })
       .register(Home)
+      .register(Organization, { prefix: '/v1/organization' })
+
       .register(User, { prefix: '/v1/user' })
 
       .register(Session, { prefix: '/v1/session' })

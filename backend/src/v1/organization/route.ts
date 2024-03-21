@@ -1,22 +1,29 @@
 import { FastifyInstance } from 'fastify';
 import { methods } from '@/helpers/api';
-import { getAllOrganizations, createOrganization } from './handler';
+import { createOrganization, getAllOrganizations, getOrganizationById } from './handler';
 
 
 const Organization = async (app: FastifyInstance) => {
 
+
+  app.route({
+    method: methods.GET,
+    url: '/',
+    handler: getAllOrganizations,
+  });
+
   app.route({
     method: methods.GET,
     url: '/:id',
-    handler: getAllOrganizations,
+    handler: getOrganizationById,
   });
 
 
   app.route({
     method: methods.POST,
-    url: '/:id',
+    url: '/',
     //preHandler: [authenticationMiddleware],
-    handler: createOrganization,
+    handler: createOrganization
   });
 
 

@@ -10,21 +10,45 @@ export async function getAllOrganizations(
   rep: FastifyReply
 ): Promise<void> {
   try {
-    rep.code(STANDARD.SUCCESS).send(await findUserById(req.params.id));
+    rep.code(STANDARD.SUCCESS).send(await findOrganizationById(req.params.id));
+  } catch (error) {
+    console.error('Error finding user with id:' + req.params.id, error);
+    rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
+  }
+}
+export async function getOrganizationById(
+  req: any,
+  rep: FastifyReply
+): Promise<void> {
+  try {
+    rep.code(STANDARD.SUCCESS).send(await findOrganizationById(req.params.id));
   } catch (error) {
     console.error('Error finding user with id:' + req.params.id, error);
     rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
   }
 }
 
-
 export async function createOrganization(
   req: any,
   rep: FastifyReply
 ): Promise<void> {
   try {
+    const createdOrg = await createOrganizationTable(req.body)
+    rep.code(STANDARD.SUCCESS).send(createdOrg);
+  } catch (error) {
+    console.error('Could not create org:', error);
+    rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
+  }
+}
+
+
+export async function updateOrganization(
+  req: any,
+  rep: FastifyReply
+): Promise<void> {
+  try {
     console.log('In here!', req.params.id, 'BOOODY:', req.body)
-    const updatedUser = await updateUserTable(req.params.id, req.body)
+    const updatedUser = await updateOrganizationTable(req.params.id, req.body)
     rep.code(STANDARD.SUCCESS).send(updatedUser);
   } catch (error) {
     rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
@@ -34,9 +58,24 @@ export async function createOrganization(
 
 
 
-//DB HELPER FUNCTIONS:
-async function updateUserTable(id: string, userObject: any) {
-  const { name, email, twitter, instagram, bio, profile_picture } = userObject
+
+
+async function createOrganizationTable(organizationObj: any) {
+  const { name, creator_id } = organizationObj
+
+  const createdOrg = await prisma.organizations.create({
+    data: {
+      name,
+      creator_id,
+    },
+  });
+  return createdOrg
+}
+
+
+
+async function updateOrganizationTable(id: string, organizationObject: any) {
+  const { name, email, twitter, instagram, bio, profile_picture } = organizationObject
   const updatedUser = await prisma.users.update({
     where: { id: Number(id) },
     data: {
@@ -55,7 +94,11 @@ async function updateUserTable(id: string, userObject: any) {
 }
 
 
-async function findUserById(id: number) {
+
+
+
+
+async function findOrganizationById(id: number) {
   const user = await prisma.users.findUnique({
     where: { id: Number(id) },
     select: {
