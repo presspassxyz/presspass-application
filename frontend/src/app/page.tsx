@@ -12,27 +12,15 @@ import { HashLoader } from "react-spinners";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const cookie = getCookie();
-  const router = useRouter();
 
   return (
     <div className="w-screen h-screen circles">
       <nav className="topbar px-5 py-5">
-        <Link href="/" className="absolute">
-          <Image
-            src="/assets/zuko-logo-white-nobg.png"
-            alt="logo"
-            width={165}
-            height={165}
-          />
-        </Link>
         <div className="flex items-center gap-1">
           <div className="block md:hidden"></div>
         </div>
 
-        <div>
-          <div className="flex items-center gap-5">Presspass</div>
-        </div>
+        <div></div>
       </nav>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
         {loading ? (

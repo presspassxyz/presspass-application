@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { AiOutlineCaretDown, AiOutlineCaretUp } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { clearCookie, getCookie } from "@/helper";
+import { Auth } from "@/utils/auth";
 
 interface UserData {
   username: string;
@@ -16,33 +17,24 @@ interface UserData {
 function Topbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [userData, setUserData] = useState<UserData | null>(null);
-
-  useEffect(() => {
-    const loggedInUser = getCookie();
-    if (loggedInUser) {
-      setUserData({
-        username: loggedInUser.username,
-        vaultId: loggedInUser.vault_id,
-      });
-    }
-  }, []);
 
   const logOutUser = async () => {
-    await clearCookie();
-    setUserData(null);
+    //TODO: call api to remove JWT in backend db when logging out as well
+    Auth.clearAccessToken();
+    Auth.removeUser();
+    //setUserData(null);
     router.push("/");
   };
 
   return (
     <nav className="topbar px-5 py-5">
       <Link href="/" className="absolute">
-            <Image
-              src="/assets/zuko-logo-white-nobg.png"
-              alt="logo"
-              width={165}
-              height={165}
-            />
+        <Image
+          src="/assets/zuko-logo-white-nobg.png"
+          alt="logo"
+          width={165}
+          height={165}
+        />
       </Link>
 
       <div className="flex items-center gap-1">
@@ -53,12 +45,12 @@ function Topbar() {
         <div className="flex items-center gap-4 flex-col">
           <Button className="gap-5" onClick={() => setIsOpen((prev) => !prev)}>
             <Image
-              src={`https://api.multiavatar.com/${userData?.username}.png`}
+              src={`https://api.multiavatar.com/${Auth.getUser}.png`}
               alt="profile-picture"
               width={35}
               height={35}
             />
-            {userData?.username}
+
             {!isOpen ? (
               <AiOutlineCaretDown className="h-8" />
             ) : (
@@ -76,6 +68,18 @@ function Topbar() {
                   height={20}
                 />
                 Logout
+              </Button>
+              <Button
+                className="gap-5 flex text-black"
+                onClick={() => router.push(`user/${Auth.getUser}`)}
+              >
+                <Image
+                  src="/assets/logout.svg"
+                  alt="logout"
+                  width={20}
+                  height={20}
+                />
+                Profile
               </Button>
             </div>
           )}

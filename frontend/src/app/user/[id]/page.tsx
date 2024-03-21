@@ -49,15 +49,6 @@ export default function User() {
 
   return (
     <div className="bg-gradient-to-r min-h-screen from-blue-100 to-teal-100">
-      <Link href="/" className="absolute px-6 py-3">
-        <Image
-          src="/assets/logo-name.png"
-          alt="logo"
-          width={110}
-          height={110}
-        />
-      </Link>
-
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         {isEditing && user ? (
           <EditUserForm

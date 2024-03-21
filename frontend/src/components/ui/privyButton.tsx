@@ -33,6 +33,7 @@ export default function PrivyButton(props: any) {
     }
     login();
   };
+  console.log(authenticated, "is authenticated 222?");
 
   return (
     <Button className="bg-black text-white px-4 py-2 " onClick={handleLogin}>
