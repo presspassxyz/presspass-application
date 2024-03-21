@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { methods } from '@/helpers/api';
-import { getUser, updateUser } from './handler';
+import { getAllUsers, getUser, updateUser } from './handler';
 
 
 const User = async (app: FastifyInstance) => {
@@ -9,6 +9,12 @@ const User = async (app: FastifyInstance) => {
     method: methods.GET,
     url: '/:id',
     handler: getUser,
+  });
+
+  app.route({
+    method: methods.GET,
+    url: '/',
+    handler: getAllUsers,
   });
 
 

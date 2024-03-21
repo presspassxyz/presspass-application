@@ -17,6 +17,18 @@ export async function getUser(
   }
 }
 
+export async function getAllUsers(
+  req: any,
+  rep: FastifyReply
+): Promise<void> {
+  try {
+    rep.code(STANDARD.SUCCESS).send(await findAllUsers());
+  } catch (error) {
+    console.error('Error finding user with id:' + req.params.id, error);
+    rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
+  }
+}
+
 
 export async function updateUser(
   req: any,
@@ -64,6 +76,12 @@ async function findUserById(id: number) {
   });
   return user
 }
+
+async function findAllUsers() {
+  const users = await prisma.users.findMany();
+  return users;
+}
+
 
 
 

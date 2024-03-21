@@ -12,6 +12,12 @@ const ApiService = {
 
         );
     },
+    getAllUsers: async function () {
+        return NetworkService.getResourceWithAuth(
+            "/v1/user/"
+
+        );
+    },
 
     updateUser: async function (userId: number, userObject: any) {
         return NetworkService.putResourceWithAuth(
