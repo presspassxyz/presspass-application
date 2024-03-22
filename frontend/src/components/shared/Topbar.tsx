@@ -9,11 +9,6 @@ import { useRouter } from "next/navigation";
 import { clearCookie, getCookie } from "@/helper";
 import { Auth } from "@/utils/auth";
 
-interface UserData {
-  username: string;
-  vaultId: string;
-}
-
 function Topbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);

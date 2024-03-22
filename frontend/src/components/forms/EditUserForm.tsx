@@ -50,6 +50,7 @@ function EditUserForm(props: EditUserFormProps) {
       </label>
       <br></br>
       <label>
+        Email:
         <input
           type="email"
           name="email"

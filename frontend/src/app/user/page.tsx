@@ -64,7 +64,6 @@ export default function Users() {
                       className="w-10 h-10 rounded-full"
                     />
                   </td>
-                  <td className="px-6 py-4 text-right"></td>
                 </tr>
               ))}
             </tbody>

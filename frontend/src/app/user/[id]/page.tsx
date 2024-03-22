@@ -3,6 +3,7 @@
 import EditUserForm from "@/components/forms/EditUserForm";
 import useGetUserById, { UserData } from "@/hooks/useGetUserById";
 import ApiService from "@/services/ApiService";
+import { Auth } from "@/utils/auth";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -47,34 +48,44 @@ export default function User() {
     }
   };
 
+  console.log(user, "user?");
   return (
     <div className="bg-gradient-to-r min-h-screen from-blue-100 to-teal-100">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        {isEditing && user ? (
-          <EditUserForm
-            setIsEditing={setIsEditing}
-            user={user}
-            setUser={setUser}
-          />
+        {!user ? (
+          <p>Loading</p>
         ) : (
-          <div>
-            <img
-              className="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-              src={`https://api.multiavatar.com/${1}.png`}
-              alt="Bordered avatar"
-            />
+          <>
+            {isEditing && user ? (
+              <EditUserForm
+                setIsEditing={setIsEditing}
+                user={user}
+                setUser={setUser}
+              />
+            ) : (
+              <div>
+                <img
+                  className="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                  src={`https://api.multiavatar.com/${user.id}.png`}
+                  alt="Bordered avatar"
+                />
 
-            <p>Wallet address: {user?.wallet_address}</p>
-            <p>created at: {user?.created_at}</p>
+                <p>Wallet address: {user.wallet_address}</p>
+                <p>Created at: {user.created_at}</p>
+                <p>ID: {user.id}</p>
 
-            <button
-              className="bg-black text-white px-4 py-2 "
-              type="button"
-              onClick={handleEditClick}
-            >
-              Edit
-            </button>
-          </div>
+                {Number(Auth.getUser) === user.id ? (
+                  <button
+                    className="bg-black text-white px-4 py-2"
+                    type="button"
+                    onClick={handleEditClick}
+                  >
+                    Edit
+                  </button>
+                ) : null}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

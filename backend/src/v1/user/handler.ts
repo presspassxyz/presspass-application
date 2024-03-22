@@ -70,9 +70,7 @@ async function updateUserTable(id: string, userObject: any) {
 async function findUserById(id: number) {
   const user = await prisma.users.findUnique({
     where: { id: Number(id) },
-    select: {
-      created_at: true, wallet_address: true, name: true, email: true, twitter: true, instagram: true, bio: true, profile_picture: true
-    },
+
   });
   return user
 }
