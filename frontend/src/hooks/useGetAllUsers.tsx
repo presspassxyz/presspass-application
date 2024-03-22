@@ -1,9 +1,9 @@
 import ApiService from "@/services/ApiService";
 import { useState, useEffect } from "react";
-import { UserData } from "./useGetUserById";
+import { UserType } from "./useGetUserById";
 
 export function useGetAllUsers() {
-  const [users, setUsers] = useState<UserData[] | null>(null);
+  const [users, setUsers] = useState<UserType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {

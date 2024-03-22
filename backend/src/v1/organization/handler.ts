@@ -2,7 +2,7 @@ import { prisma } from '@/db/index';
 import {
   ERROR500, STANDARD
 } from '@/helpers/constants';
-import { FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyReply } from 'fastify';
 
 
 export async function getAllOrganizations(
@@ -10,7 +10,7 @@ export async function getAllOrganizations(
   rep: FastifyReply
 ): Promise<void> {
   try {
-    rep.code(STANDARD.SUCCESS).send(await findOrganizationById(req.params.id));
+    rep.code(STANDARD.SUCCESS).send(await prisma.organizations.findMany());
   } catch (error) {
     console.error('Error finding user with id:' + req.params.id, error);
     rep.code(ERROR500.statusCode).send({ msg: ERROR500.message });
@@ -33,6 +33,7 @@ export async function createOrganization(
   rep: FastifyReply
 ): Promise<void> {
   try {
+    console.log(req.body, 'wats REQ BODY org???')
     const createdOrg = await createOrganizationTable(req.body)
     rep.code(STANDARD.SUCCESS).send(createdOrg);
   } catch (error) {
@@ -61,14 +62,19 @@ export async function updateOrganization(
 
 
 async function createOrganizationTable(organizationObj: any) {
-  const { name, creator_id } = organizationObj
-
+  const { name, creator_id, } = organizationObj
   const createdOrg = await prisma.organizations.create({
     data: {
       name,
       creator_id,
+      //bio
     },
   });
+
+  //TODO you should be able to add 'admins' in the org by adding
+  //an array of users in the 'user_organizations table
+
+
   return createdOrg
 }
 
@@ -85,10 +91,7 @@ async function updateOrganizationTable(id: string, organizationObject: any) {
       instagram,
       bio,
       profile_picture
-    },
-    select: {
-      created_at: true, wallet_address: true, name: true, email: true, twitter: true, instagram: true, bio: true, profile_picture: true
-    },
+    }
   });
   return updatedUser
 }
@@ -99,11 +102,8 @@ async function updateOrganizationTable(id: string, organizationObject: any) {
 
 
 async function findOrganizationById(id: number) {
-  const user = await prisma.users.findUnique({
-    where: { id: Number(id) },
-    select: {
-      created_at: true, wallet_address: true, name: true, email: true, twitter: true, instagram: true, bio: true, profile_picture: true
-    },
+  const user = await prisma.organizations.findUnique({
+    where: { id: Number(id) }
   });
   return user
 }

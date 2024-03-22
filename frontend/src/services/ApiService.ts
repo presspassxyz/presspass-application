@@ -26,6 +26,19 @@ const ApiService = {
         );
     },
 
+    createOrganization: async function (organization: any) {
+        return NetworkService.postResourceWithAuth("/v1/organization", organization);
+    },
+
+    getAllOrganizations: async function () {
+        return NetworkService.getResourceWithAuth("/v1/organization");
+    },
+
+    getOrganizationById: async function (organizationId: any) {
+        return NetworkService.getResourceWithAuth("/v1/organization/" + organizationId);
+    },
+
+
 
     //Includes groupId and public address
     createMember: async function (id: string, member: any) {

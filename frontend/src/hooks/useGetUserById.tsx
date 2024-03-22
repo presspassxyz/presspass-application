@@ -1,7 +1,7 @@
 import { getCookie } from "@/helper";
 import ApiService from "@/services/ApiService";
 import { useState, useEffect } from "react";
-export interface UserData {
+export interface UserType {
   id: number;
   name: string;
   email: string;
@@ -15,7 +15,7 @@ export interface UserData {
 }
 
 export function useGetUserById(userId: number) {
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {

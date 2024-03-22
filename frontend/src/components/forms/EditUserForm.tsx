@@ -1,21 +1,21 @@
 "use client";
 
-import { UserData } from "@/hooks/useGetUserById";
+import { UserType } from "@/hooks/useGetUserById";
 import ApiService from "@/services/ApiService";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
 interface EditUserFormProps {
   setIsEditing: (bool: boolean) => void;
-  user: UserData;
-  setUser: (user: UserData) => void;
+  user: UserType;
+  setUser: (user: UserType) => void;
 }
 
 function EditUserForm(props: EditUserFormProps) {
   const { setIsEditing, user, setUser } = props;
   let { id: userId } = useParams();
 
-  const [formData, setFormData] = useState<UserData | null>(null);
+  const [formData, setFormData] = useState<UserType | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

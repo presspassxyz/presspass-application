@@ -1,7 +1,7 @@
 "use client";
 
 import EditUserForm from "@/components/forms/EditUserForm";
-import useGetUserById, { UserData } from "@/hooks/useGetUserById";
+import useGetUserById, { UserType } from "@/hooks/useGetUserById";
 import ApiService from "@/services/ApiService";
 import { Auth } from "@/utils/auth";
 import Image from "next/image";
@@ -20,7 +20,7 @@ export default function User() {
 
   const { user, setUser } = useGetUserById(Number(userId));
 
-  const [formData, setFormData] = useState<UserData | null>(null);
+  const [formData, setFormData] = useState<UserType | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
