@@ -17,7 +17,7 @@ import { useState } from "react";
 export default function User() {
   let { id: userId } = useParams();
   console.log("heej", userId);
-
+  const router = useRouter();
   const { user, setUser } = useGetUserById(Number(userId));
 
   const [formData, setFormData] = useState<UserType | null>(null);
@@ -83,6 +83,16 @@ export default function User() {
                     Edit
                   </button>
                 ) : null}
+                <br>
+                  <br></br>
+                </br>
+                <button
+                  className="bg-black text-white px-4 py-2"
+                  type="button"
+                  onClick={() => router.push("/")}
+                >
+                  Attest journalist
+                </button>
               </div>
             )}
           </>
