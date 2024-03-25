@@ -81,7 +81,7 @@ async function findExistingUser(publicAddress: string) {
 
 
 
-//TODO add email embedded wallet edge case, since user object from Privy is different then
+//TODO add email embedded wallet edge case, since user object from Privy is different then wallet
 async function createUser(walletAddress: string, jwt: string) {
   const createdUser = await prisma.users.create({
     data: {
