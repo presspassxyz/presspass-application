@@ -15,7 +15,6 @@ const ApiService = {
     getAllUsers: async function () {
         return NetworkService.getResourceWithAuth(
             "/v1/user/"
-
         );
     },
 

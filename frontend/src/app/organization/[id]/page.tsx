@@ -1,13 +1,11 @@
 "use client";
 
 import useGetOrganizationById from "@/hooks/useGetOrganizationById";
-import useGetUserById, { UserType } from "@/hooks/useGetUserById";
 
 import { useParams } from "next/navigation";
 
 export default function Organization() {
   let { id: organizationId } = useParams();
-  console.log("heej", organizationId);
 
   const { organization } = useGetOrganizationById(Number(organizationId));
 
