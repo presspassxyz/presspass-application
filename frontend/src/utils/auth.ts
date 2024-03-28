@@ -48,7 +48,10 @@ export class Auth {
     }
 
     static get getUser() {
-        return localStorage.getItem(PRESSPASS_USER);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            return localStorage.getItem(PRESSPASS_USER);
+
+        } else return null
     }
 
     static removeUser() {
