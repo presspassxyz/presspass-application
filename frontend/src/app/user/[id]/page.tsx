@@ -69,11 +69,9 @@ export default function User() {
                   src={`https://api.multiavatar.com/${user.id}.png`}
                   alt="Bordered avatar"
                 />
-
                 <p>Wallet address: {user.wallet_address}</p>
                 <p>Created at: {user.created_at}</p>
                 <p>ID: {user.id}</p>
-
                 {Number(Auth.getUser) === user.id ? (
                   <button
                     className="bg-black text-white px-4 py-2"
@@ -83,9 +81,7 @@ export default function User() {
                     Edit
                   </button>
                 ) : null}
-                <br>
-                  <br></br>
-                </br>
+                <br></br> <br></br>
                 <button
                   className="bg-black text-white px-4 py-2"
                   type="button"

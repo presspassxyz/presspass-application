@@ -19,8 +19,6 @@ export default function Home() {
         <div className="flex items-center gap-1">
           <div className="block md:hidden"></div>
         </div>
-
-        <div></div>
       </nav>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full">
         {loading ? (
@@ -32,7 +30,6 @@ export default function Home() {
           </h1>
         ) : (
           <div>
-            {" "}
             <h1 className="mt-4 text-2xl text-center">GET YOUR PRESS PASS</h1>
             <h2 className="mt-4 text-center">
               Tired of getting impersonated and your Identity being used to
